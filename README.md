@@ -1,0 +1,1 @@
+One of my old, poorly written projects that does the job. Given a GIF, a youtube link and some other optional settings, you can turn any youtube video into a slowed + reverb music video, with the GIF looping on the video. There isn't really a robust UI, there's a "if __name__ ==   '__main__'" block in main.py that kind of shows you how to use it. 
