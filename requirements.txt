@@ -1,0 +1,7 @@
+ffmpeg-python
+colorthief
+pillow
+pytube
+pedalboard
+numpy
+pydub
