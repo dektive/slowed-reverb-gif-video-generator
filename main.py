@@ -5,7 +5,7 @@ from temp import create_file
 import os
 import sfx
 import ffmpeg
-
+print("HELLOOOOOOOOO")
 
 def apply_audio_effects(audio_fn, **kwargs) -> str:
     reserved_output_file = 'reserved.mp3'
@@ -132,17 +132,47 @@ def c2(audio_path: ffmpeg.nodes.FilterableStream, video_path: ffmpeg.nodes.Filte
 
 if __name__ == '__main__':
     from pydub import AudioSegment
-    file = download_mp3("https://www.youtube.com/watch?v=XOzs1FehYOA")
 
-    audio = apply_audio_effects(file, reverb=0.15, change_speed=0.85)
+    youtube_link = str(input("enter youtube link of the song: "))
+    reverb = input("insert reverb amount (default 0.15, which means the 'room' size is 85% of the original): ")
+    speed = input("insert the speed of the original (default 0.85, which means the song plays at 85% the speed of the original): ")
+
+    while True:
+        gif = input("insert the overlay gif: ")
+        if not gif:
+            print("gif required! ")
+        else:
+            break
+    background = input("insert the background image (default option available, just ignore prompt): ")
+    name = input("enter the name of the file: ")
+
+    if not background:
+        background = 'default'
+
+    if not reverb:
+        reverb = 0.15
+    else:
+        reverb = float(reverb)
+
+    if not speed:
+        speed = 0.85
+    else:
+        speed = float(speed)
+
+    file = download_mp3(youtube_link)
+    audio = apply_audio_effects(file, reverb=reverb, change_speed=speed)
     length = len(AudioSegment.from_file(audio))
 
     g = VideoGenerator(
-        background='default',
-        gif='gifs/eren-eyes.gif',
+        background=background,
+        gif=gif,
         pad_y='75',
         pad_x='75',
         length=f'{(float(length) / float(1000)).__ceil__()}'
     )
     video = g.generate_video_with_background()
-    c2(ffmpeg.input(audio), video, output_path='your song.mp4')
+    c2(ffmpeg.input(audio), video, output_path=f'{name}.mp4')
+
+    os.remove(file)
+    os.remove("reserved.mp3")
+    os.remove(''.join(os.path.splitext(file)[:-1]) + ".mp3")
