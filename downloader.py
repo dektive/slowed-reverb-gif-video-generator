@@ -1,3 +1,4 @@
+import os.path
 from pytube import YouTube
 import ffmpeg
 
@@ -9,9 +10,7 @@ def download_mp3(youtube_link):
 	t[0].download(rf'./')
 	(
 		ffmpeg.input(f'{z}.mp4')
-		.output(rf'C:\Users\anike_gzh\PycharmProjects\laniakea\{z}.mp3')
+		.output(rf'./{z}.mp3')
 		.run(overwrite_output=True)
 	)
-	return rf'C:\Users\anike_gzh\PycharmProjects\laniakea\{z}.mp3'
-
-# m = MP4(rf'C:\Users\anike_gzh\PycharmProjects\laniakea\{z}.mp4')
+	return os.path.abspath(rf'./{z}.mp3')
